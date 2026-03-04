@@ -26,20 +26,20 @@ const connectGuide = await getEntry("guides", "guide-connect-supabase");
 const fetchDataGuide = await getEntry("guides", "guide-fetch-data");
 ---
 
-<Layout title="Web Frameworks">
+<Layout title="Pit of Dispair">
   {
     supabase ? (
       frameworks ? (
         <>
           <h1 class="mb-8 text-4xl font-bold">
-            Vote for Your Favorite Web Framework
+            What I'm learning
           </h1>
           <table class="w-full text-left">
             <thead>
               <tr class="font-mono text-base border-t border-b">
                 <th>Name</th>
                 <th>Logo</th>
-                <th>Likes</th>
+                <th>votes</th>
               </tr>
             </thead>
             <tbody>
@@ -63,7 +63,7 @@ const fetchDataGuide = await getEntry("guides", "guide-fetch-data");
       )
     ) : (
       <>
-        <Alert title="Finish setting up your new site" text="Before your website is ready, you must complete the steps from the guide below to create, populate, and connect your Supabase database."/>
+        <Alert title="CheckDB" text="DB not connected."/>
         {connectGuide && <Guide guide={connectGuide} />}
       </>
     )

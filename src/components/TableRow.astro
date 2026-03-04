@@ -17,6 +17,6 @@ const { framework } = Astro.props;
       alt={framework.name}
     />
   </td>
-  <td>{framework.likes} like{framework.likes === 1 ? "" : "s"}</td>
-  <td><a href={`/frameworks/${framework.id}`} class="underline">Learn more &rarr;</a></td>
+  <td>{framework.likes} vote{framework.likes === 1 ? "" : "s"}</td>
+  <td><a href={`/frameworks/${framework.id}`} class="underline">Details&rarr;</a></td>
 </tr>

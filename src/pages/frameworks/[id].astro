@@ -32,7 +32,7 @@ if (supabase) {
       class="flex flex-wrap items-center justify-between pb-2 mb-8 border-b"
     >
       <h1 class="mb-4 text-5xl font-bold">{framework?.name}</h1>
-      <a href={framework?.url} class="underline">Website &#8599;</a>
+      <a href={framework?.url} class="underline">Check it out &#8599;</a>
     </header>
 
     <figure>
@@ -50,7 +50,7 @@ if (supabase) {
       <h2 class="mb-2 text-2xl">Like {framework?.name}!</h2>
 
       <p class="mb-4">
-        {framework?.name} has {framework?.likes} like{
+        {framework?.name} has {framework?.likes} vote{
           framework?.likes === 1 ? "" : "s"
         }.
       </p>
