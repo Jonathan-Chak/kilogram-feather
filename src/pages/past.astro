@@ -1,0 +1,27 @@
+---
+import Layout from "../components/Layout.astro";
+---
+
+<Layout title="Past Projects">
+  {
+    <h1 class="mb-8 text-4xl font-bold">
+        What I've worked on
+    </h1>
+    <table class="w-full text-left">
+            <thead>
+              <tr class="font-mono text-base border-t border-b">
+                <th>Name</th>
+                <th>Preview</th>
+                <th>votes</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr class="font-bold"><td>Christmas</td><td><img src="../../images/past/Christmas2021Cut.gif" alt="" width="500px"></td></tr>
+                <tr class="font-bold"><td>Alley</td><td><img src="../../images/past/CompositeV2.gif" alt="" width="500px"></td></tr>
+                <tr class="font-bold"><td>Desk</td><td><img src="../../images/past/Laptop.gif" alt="" width="500px"></td></tr>
+                <tr class="font-bold"><td>Rifle</td><td><img src="../../images/past/Scar.gif" alt="" width="500px"></td></tr>
+                <tr class="font-bold"><td>Greatsword</td><td><img src="../../images/past/Moonlight GreatswordCom.png" alt="" width="500px"></td></tr>
+            </tbody>
+          </table>
+    }
+</Layout>
