@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import scarImage from '../pastImages/Scar.gif';
 
 const { framework } = Astro.props;
 ---
@@ -7,8 +8,8 @@ const { framework } = Astro.props;
 <tr class="border-b border-neutral-600">
   <td class="text-xl font-bold">{framework.name}</td>
   <td>
-    <img
-      src={`src/pastImages/${framework.thumbnail}`}
+    <Image
+      src={scarImage}
       class="w-64"
       alt={framework.name}
     />
