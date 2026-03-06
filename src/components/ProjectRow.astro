@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import scarImage from '../pastImages/Scar.gif';
 
 const { framework } = Astro.props;
 ---
@@ -8,8 +7,8 @@ const { framework } = Astro.props;
 <tr class="border-b border-neutral-600">
   <td class="text-xl font-bold">{framework.name}</td>
   <td>
-    <Image
-      src={scarImage}
+    <img
+      src={`/.netlify/images?url=/images/pastImages/${framework?.thumbnail}`}
       class="w-64"
       alt={framework.name}
     />
