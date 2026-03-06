@@ -1,27 +1,71 @@
 ---
+import { getEntry } from "astro:content";
+import Alert from "../components/Alert.astro";
+import Guide from "../components/Guide.astro";
 import Layout from "../components/Layout.astro";
+import TableRow from "../components/ProjectRow.astro";
+import { supabase } from "../utils/database";
+
+export const prerender = false;
+
+let frameworks;
+let frameworksError;
+
+// Fetch frameworks data from Supabase if connection is set up
+if (supabase) {
+  const { data, error } = await supabase
+    .from("projects")
+    .select("*")
+    .order("likes", { ascending: false });
+  frameworks = data;
+  frameworksError = error;
+}
+
+// Get guides
+const connectGuide = await getEntry("guides", "guide-connect-supabase");
+const fetchDataGuide = await getEntry("guides", "guide-fetch-data");
 ---
 
-<Layout title="Past Projects">
+<Layout title="past">
   {
-    <h1 class="mb-8 text-4xl font-bold">
-        What I've worked on
-    </h1>
-    <table class="w-full text-left">
+    supabase ? (
+      frameworks ? (
+        <>
+          <h1 class="mb-8 text-4xl font-bold">
+            What I've worked on
+          </h1>
+          <table class="w-full text-center">
             <thead>
               <tr class="font-mono text-base border-t border-b">
                 <th>Name</th>
                 <th>Preview</th>
-                <th>votes</th>
+                <th>likes</th>
               </tr>
             </thead>
             <tbody>
-                <tr class="font-bold"><td>Christmas</td><td><img src="../../images/past/Christmas2021Cut.gif" alt="" width="500px"></td></tr>
-                <tr class="font-bold"><td>Alley</td><td><img src="../../images/past/CompositeV2.gif" alt="" width="500px"></td></tr>
-                <tr class="font-bold"><td>Desk</td><td><img src="../../images/past/Laptop.gif" alt="" width="500px"></td></tr>
-                <tr class="font-bold"><td>Rifle</td><td><img src="../../images/past/Scar.gif" alt="" width="500px"></td></tr>
-                <tr class="font-bold"><td>Greatsword</td><td><img src="../../images/past/Moonlight GreatswordCom.png" alt="" width="500px"></td></tr>
+              {frameworks?.map((framework) => (
+                <TableRow framework={framework} />
+              ))}
             </tbody>
           </table>
-    }
+        </>
+      ) : (
+        <>
+          {frameworksError && (
+            <Alert
+              title={frameworksError.code}
+              text={frameworksError.message}
+              variant="error"
+            />
+          )}
+          {fetchDataGuide && <Guide guide={fetchDataGuide} />}
+        </>
+      )
+    ) : (
+      <>
+        <Alert title="CheckDB" text="DB not connected."/>
+        {connectGuide && <Guide guide={connectGuide} />}
+      </>
+    )
+  }
 </Layout>

@@ -16,6 +16,7 @@ export type Database = {
           url: string;
           id: string;
           logo: string;
+          thumbnail: string;
           name: string;
           likes: number;
         };

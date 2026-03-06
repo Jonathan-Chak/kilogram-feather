@@ -1,0 +1,18 @@
+---
+import { Image } from "astro:assets";
+
+const { framework } = Astro.props;
+---
+
+<tr class="border-b border-neutral-600">
+  <td class="text-xl font-bold">{framework.name}</td>
+  <td>
+    <img
+      src={`src/pastImages/${framework.thumbnail}`}
+      class="w-64"
+      alt={framework.name}
+    />
+  </td>
+  <td>{framework.likes} like{framework.likes === 1 ? "" : "s"}</td>
+  <td><a href={`/frameworks/${framework.id}past`} class="underline">Details&rarr;</a></td>
+</tr>
