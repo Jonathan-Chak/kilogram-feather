@@ -27,7 +27,7 @@ export const prerender = false
         if (title) {
             title.textContent = framework[sorted_id].name
         }
-        let showcase = document.getElementById('showcase');
+        let showcase = document.getElementById('showcase') as HTMLImageElement;
         if (showcase) {
             image_array = framework[sorted_id].showcase?.split(',')||"";
             let index = 0;
