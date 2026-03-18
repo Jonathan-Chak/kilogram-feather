@@ -6,10 +6,10 @@ const { framework } = Astro.props;
 
 <tr class="border-b border-neutral-600">
   <td class="text-xl font-bold">{framework.name}</td>
-  <td>
+  <td class="py-6">
     <img
       src={`/.netlify/images?url=/images/pastImages/${framework?.thumbnail}`}
-      class="w-64"
+      class="w-64 rounded-md"
       alt={framework.name}
     />
   </td>

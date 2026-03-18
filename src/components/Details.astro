@@ -1,0 +1,74 @@
+---
+const { framework } = Astro.props;
+let id = 0;
+
+export const prerender = false
+---
+<div id="framework-data" data-images={JSON.stringify(framework)}></div>
+<script>
+    const root = document.querySelector('#framework-data') as HTMLElement;
+    const framework = JSON.parse(root.dataset.images || '[]');
+
+    let image_array: string[] = [];
+    let timer:number;
+
+    window.addEventListener('ui:show-details',(e) => {
+        const customEvent = e as CustomEvent;
+        let id = customEvent.detail.id;
+        let rect = customEvent.detail.rect;
+        let sorted_id = customEvent.detail.sorted_id;
+        let wrapper= document.getElementById('wrapper');
+        if (wrapper) {
+            wrapper.classList.replace('opacity-0', 'opacity-100');
+            wrapper.style.left = `${rect.right + 10}px`;
+            wrapper.style.top = `${rect.top}px`;
+        };
+        let title = document.getElementById('title');
+        if (title) {
+            title.textContent = framework[sorted_id].name
+        }
+        let showcase = document.getElementById('showcase');
+        if (showcase) {
+            image_array = framework[sorted_id].showcase?.split(',')||"";
+            let index = 0;
+            showcase.src = `../images/${image_array[index]}`;
+            if (image_array.length > 1) {
+                timer = window.setInterval(() => {
+                    if (index < image_array.length-1) {
+                        index ++;
+                    }else{
+                        index = 0;
+                    }
+                    showcase.src = `../images/${image_array[index]}`;
+                }, 3000);
+            };
+        };
+        let tags = document.getElementById('tags');
+        if (tags) {
+            let tag_string = "";
+            let tag_array = framework[sorted_id].tags.split(',');
+
+            tag_array.forEach((tag:string) => {
+                tag_string += "<p>"+ tag + "</p>"
+            });
+            tags.innerHTML = tag_string;
+        }
+    })
+    window.addEventListener('ui:hide-details',(e) => {
+        const customEvent = e as CustomEvent;
+        image_array.length=0;
+        clearInterval(timer);
+        let id = customEvent.detail.id;
+        let wrapper= document.getElementById('wrapper');
+        if (wrapper) {  
+         wrapper.classList.replace('opacity-100','opacity-0');
+        }
+    })
+    
+</script>
+<div id="wrapper" class="w-md fixed opacity-0 transition-opacity duration-500 ease-in bg-neutral-300">
+    <h1 id="title" class=" mx-15 my-2 text-4xl text-black font-light ">{framework}</h1>
+    <img id="showcase" class="w-xs mx-auto" src="">
+    <div id="tags" class="flex m-5 *:rounded-md *:px-2 *:mx-0.5 *:bg-neutral-600 *:font-bold" >
+    </div>
+</div>

@@ -5,6 +5,7 @@ import Guide from "../components/Guide.astro";
 import Layout from "../components/Layout.astro";
 import TableRow from "../components/TableRow.astro";
 import { supabase } from "../utils/database";
+import Details from "../components/Details.astro";
 
 export const prerender = false;
 
@@ -20,52 +21,46 @@ if (supabase) {
   frameworks = data;
   frameworksError = error;
 }
-
-// Get guides
-const connectGuide = await getEntry("guides", "guide-connect-supabase");
-const fetchDataGuide = await getEntry("guides", "guide-fetch-data");
 ---
 
-<Layout title="Pit of Despair">
-  {
-    supabase ? (
-      frameworks ? (
-        <>
-          <h1 class="mb-8 text-4xl font-bold">
-            What I'm learning
-          </h1>
-          <table class="w-full text-left">
-            <thead>
-              <tr class="font-mono text-base border-t border-b">
-                <th>Name</th>
-                <th>Logo</th>
-                <th>votes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {frameworks?.map((framework) => (
-                <TableRow framework={framework} />
-              ))}
-            </tbody>
-          </table>
-        </>
-      ) : (
-        <>
-          {frameworksError && (
-            <Alert
-              title={frameworksError.code}
-              text={frameworksError.message}
-              variant="error"
-            />
-          )}
-          {fetchDataGuide && <Guide guide={fetchDataGuide} />}
-        </>
-      )
-    ) : (
-      <>
-        <Alert title="CheckDB" text="DB not connected."/>
-        {connectGuide && <Guide guide={connectGuide} />}
-      </>
-    )
-  }
+<Layout title="Kilogram Feather">
+  <h1 class="mb-8 text-xl font-bold border-b border-gray-400 pb-2">
+    What I'm learning
+  </h1>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {frameworks?.map((framework) => (
+        <TableRow framework={framework} />
+      
+    ))}
+    <Details framework={frameworks}/>
+  </div>
+  
 </Layout>
+<script is:inline>
+  const squares = document.querySelectorAll('.square');
+
+  squares.forEach((element,index) => {
+    element.addEventListener('click',()=>{
+      const id = element.id;
+      console.log("selected game "+id);
+      element.classList.add('font-bold');
+      element.classList.add('bg-blue-900/60');
+      window.location.href = '/frameworks/'+id
+    })
+    element.addEventListener('mouseenter',()=>{
+      const id = element.id;
+      element.classList.add('bg-gray-700');
+      const rect = element.getBoundingClientRect();
+      const event = new CustomEvent('ui:show-details',{detail:{id:id,rect:rect,sorted_id:index}});
+      window.dispatchEvent(event)
+      
+
+    element.addEventListener('mouseleave',()=>{
+      const id = element.id;
+      element.classList.remove('bg-gray-700');
+      const event = new CustomEvent('ui:hide-details',{detail:{id:id}});
+      window.dispatchEvent(event)
+    })
+  });
+});
+</script>

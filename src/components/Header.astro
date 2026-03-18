@@ -1,14 +1,28 @@
-<header class="max-w-4xl mx-auto mt-6 mb-16">
-  <nav class="flex justify-between">
-    <a
-      href="/"
-      class="text-2xl font-bold hover:underline hover:underline-offset-4 hover:decoration-green-500"
-      ><span class="text-green-500">&#10022;</span> Home
-    </a>
-    <a
-      href="/past"
-      class="text-2xl hover:underline hover:underline-offset-4 hover:decoration-green-500"
-      ><span class="text-green-500">&#10022;</span> Past Projects
-    </a>
+---
+const {pathname} = Astro.url;
+
+const navLinks = [
+  { name: '♙HOME', href: '/' },
+  { name: '3D', href: '/past' },
+];
+
+const isActive = (href: string) => 
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+
+<header class="w-full mx-auto mt-6 mb-26">
+  <nav class="w-full h-15 fixed top-0 bg-gray-900">
+    <ul class="flex pt-3">
+      {navLinks.map((link)=>(
+        <li>
+          <a
+          href={link.href}
+          aria-current={isActive(link.href) ? "page" : null}
+          class="text-2xl px-15 text-neutral-200 font-semibold  aria-[current=page]:text-blue-500 aria-[current=page]:underline decoration-blue-500 underline-offset-4 decoration-solid decoration-3 ">
+            {link.name}
+          </a> 
+        </li>
+      ))} 
+    </ul>
   </nav>
 </header>
