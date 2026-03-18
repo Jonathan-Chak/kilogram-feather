@@ -11,6 +11,7 @@ export const prerender = false
 
     let image_array: string[] = [];
     let timer:number;
+    let hide_timer:ReturnType<typeof setTimeout>;
 
     window.addEventListener('ui:show-details',(e) => {
         const customEvent = e as CustomEvent;
@@ -19,6 +20,8 @@ export const prerender = false
         let sorted_id = customEvent.detail.sorted_id;
         let wrapper= document.getElementById('wrapper');
         if (wrapper) {
+            wrapper.classList.replace('hidden', 'fixed');
+            clearTimeout(hide_timer);
             wrapper.classList.replace('opacity-0', 'opacity-100');
             wrapper.style.left = `${rect.right + 10}px`;
             wrapper.style.top = `${rect.top}px`;
@@ -33,6 +36,7 @@ export const prerender = false
             let index = 0;
             showcase.src = `../images/${image_array[index]}`;
             if (image_array.length > 1) {
+                if (timer) clearInterval(timer);
                 timer = window.setInterval(() => {
                     if (index < image_array.length-1) {
                         index ++;
@@ -57,14 +61,17 @@ export const prerender = false
     window.addEventListener('ui:hide-details',(e) => {
         const customEvent = e as CustomEvent;
         image_array.length=0;
-        clearInterval(timer);
         let id = customEvent.detail.id;
         let wrapper= document.getElementById('wrapper');
         if (wrapper) {  
          wrapper.classList.replace('opacity-100','opacity-0');
-        }
+         if (hide_timer) clearTimeout(hide_timer);
+         hide_timer = setTimeout(() => {
+            wrapper.classList.replace('fixed', 'hidden');
+        }, 1000);
+        };
+        clearInterval(timer);
     })
-    
 </script>
 <div id="wrapper" class="w-md fixed opacity-0 transition-opacity duration-500 ease-in bg-neutral-300">
     <h1 id="title" class=" mx-15 my-2 text-4xl text-black font-light ">{framework}</h1>
