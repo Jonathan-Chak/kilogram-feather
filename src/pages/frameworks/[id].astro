@@ -26,7 +26,7 @@ if (supabase) {
 }
 ---
 
-<Layout title={`${framework?.name} | Frameworks`}>
+<Layout title={`${framework?.name}`}>
   <article class="border-b pb-14 border-neutral-600">
     <header
       class="flex flex-wrap items-center justify-between pb-2 mb-8 border-b"
@@ -46,16 +46,5 @@ if (supabase) {
 
     <p class="py-6 text-xl">{framework?.description}</p>
 
-    <form action={`/api/frameworks/${framework?.id}/like`} method="post">
-      <h2 class="mb-2 text-2xl">Like {framework?.name}!</h2>
-
-      <p class="mb-4">
-        {framework?.name} has {framework?.likes} vote{
-          framework?.likes === 1 ? "" : "s"
-        }.
-      </p>
-
-      <button type="submit" class="px-4 py-2 bg-blue-500 rounded-sm text-neutral-800 hover:bg-blue-600">Give {framework?.name} your vote &starf;</button>
-    </form>
   </article>
 </Layout>

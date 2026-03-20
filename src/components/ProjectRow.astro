@@ -2,17 +2,37 @@
 import { Image } from "astro:assets";
 
 const { framework } = Astro.props;
+
+export const prerender = false
 ---
 
-<tr class="border-b border-neutral-600">
-  <td class="text-xl font-bold">{framework.name}</td>
-  <td class="py-6">
-    <img
-      src={`/.netlify/images?url=/images/pastImages/${framework?.thumbnail}`}
-      class="w-64 rounded-md"
-      alt={framework.name}
-    />
-  </td>
-  <td>{framework.likes} like{framework.likes === 1 ? "" : "s"}</td>
-  <td><a href={`/frameworks/${framework.id}past`} class="underline">Details&rarr;</a></td>
-</tr>
+<div onmouseenter=onenter(this) onmouseleave=onleave(this) class="square relative pb-2 border-0 border-gray-700 shadow-2xl shadow-black" >
+  <h1 class="title text-2xl font-medium w-full py-2 px-5 bg-neutral-800/90 hidden">{framework.name}</h1>
+  <img
+    src={`/.netlify/images?url=/images/pastImages/${framework?.thumbnail}`}
+    class="w-lg rounded-md"
+    alt={framework.name}
+    id={framework.id}
+    onclick="window.location.href=`/frameworks/${this.id}3D`"
+  />
+  <form action={`/api/frameworks/${framework?.id}/like3D`} method="post" style="padding-top: 15px;" class="flex">
+      <button type="submit" class="px-4 rounded-full text-2xl text-neutral-100 hover:bg-orange-600">🡅</button>
+      <p class="m-2">
+        {framework?.likes}
+      </p>
+      <button onclick="this.textContent='downvoting not allowed'" onmouseleave="this.textContent='🡇'" type=reset class="px-4 rounded-full text-2xl text-neutral-100 hover:bg-blue-600">🡇</button>
+    </form>
+</div>
+
+<script is:inline>
+  window.onenter = function(element){
+    if (element){
+    element.querySelector('.title').classList.replace('hidden','absolute')
+    }
+  }
+  window.onleave = function(element){
+    if (element){
+      element.querySelector('.title').classList.replace('absolute','hidden')
+    }
+  }
+</script>

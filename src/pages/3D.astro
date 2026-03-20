@@ -1,0 +1,35 @@
+---
+import { getEntry } from "astro:content";
+import Alert from "../components/Alert.astro";
+import Layout from "../components/Layout.astro";
+import { supabase } from "../utils/database";
+import ProjectRow from "../components/ProjectRow.astro";
+
+export const prerender = false;
+
+let frameworks;
+let frameworksError;
+
+// Fetch frameworks data from Supabase if connection is set up
+if (supabase) {
+  const { data, error } = await supabase
+    .from("projects")
+    .select("*")
+    .order("likes", { ascending: false });
+  frameworks = data;
+  frameworksError = error;
+}
+---
+
+<Layout title="Kilogram Feather">
+  <h1 class="mb-8 text-xl font-bold border-b border-gray-400 pb-2">
+    What I worked on
+  </h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {frameworks?.map((framework) => (
+        <ProjectRow framework={framework} />
+      
+    ))}
+  </div>
+  
+</Layout>

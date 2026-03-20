@@ -26,13 +26,12 @@ if (supabase) {
 }
 ---
 
-<Layout title={`${framework?.name} | Frameworks`}>
+<Layout title={`${framework?.name}`}>
   <article class="border-b pb-14 border-neutral-600">
     <header
       class="flex flex-wrap items-center justify-between pb-2 mb-8 border-b"
     >
       <h1 class="mb-4 text-5xl font-bold">{framework?.name}</h1>
-      <a href={framework?.url} class="underline">Check it out &#8599;</a>
     </header>
 
     <figure>
@@ -44,18 +43,14 @@ if (supabase) {
       <figcaption class="font-mono text-xs">{framework?.name}</figcaption>
     </figure>
 
-    <p class="py-6 text-xl">{framework?.description}</p>
+    <p class="pt-6 text-xl">{framework?.description}</p>
 
-    <form action={`/api/frameworks/${framework?.id}/likepast`} method="post" style="padding-top: 55px;">
-      <h2 class="mb-2 text-2xl">Like {framework?.name}!</h2>
-
-      <p class="mb-4">
-        {framework?.name} has {framework?.likes} like{
-          framework?.likes === 1 ? "" : "s"
-        }.
+    <form action={`/api/frameworks/${framework?.id}/like3Dpost`} method="post" style="padding-top: 15px;" class="flex">
+      <button type="submit" class="px-4 rounded-full text-2xl text-neutral-100 hover:bg-orange-600">🡅</button>
+      <p class="m-2">
+        {framework?.likes}
       </p>
-
-      <button type="submit" class="px-4 py-2 bg-blue-500 rounded-sm text-neutral-800 hover:bg-blue-600">Give {framework?.name} your like&starf;</button>
+      <button onclick="this.textContent='downvoting not allowed'" onmouseleave="this.textContent='🡇'" type=reset class="px-4 rounded-full text-2xl text-neutral-100 hover:bg-blue-600">🡇</button>
     </form>
   </article>
 </Layout>
