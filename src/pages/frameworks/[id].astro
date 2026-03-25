@@ -45,9 +45,8 @@ if (supabase) {
     <div class="flex -space-x-64">
       {image_array.map((image:string) => (
         <div onmouseenter=onenter(this) class="image-containter" >
-          <Image class="w-md aspect-video object-cover bg-blue-200 border"
+          <img class="w-md aspect-video object-cover bg-blue-200 border"
            src={`/.netlify/images?url=/images/${image}`}
-           alt={framework?.name}
            />
         </div>
       ))}
