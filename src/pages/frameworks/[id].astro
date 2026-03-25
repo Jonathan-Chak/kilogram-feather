@@ -1,6 +1,7 @@
 ---
 import Layout from "../../components/Layout.astro";
 import { supabase } from "../../utils/database";
+import Image from "astro/components/Image.astro";
 
 export const prerender = false;
 
@@ -24,27 +25,58 @@ if (supabase) {
     throw new Error("No framework found");
   }
 }
----
+ let image_array = framework.showcase?.split(',')||"";
 
+---
 <Layout title={`${framework?.name}`}>
   <article class="border-b pb-14 border-neutral-600">
+    
     <header
-      class="flex flex-wrap items-center justify-between pb-2 mb-8 border-b"
+      class="flex items-center  pb-2 mb-8 border-b"
     >
-      <h1 class="mb-4 text-5xl font-bold">{framework?.name}</h1>
-      <a href={framework?.url} class="underline">Check it out</a>
-    </header>
-
-    <figure>
       <img
         src={`/.netlify/images?url=/images/${framework?.logo}`}
         alt={framework?.name}
-        class="mb-2 max-w-sm border rounded-sm border-neutral-500"
+        class="mb-4 w-12 max-w-12"
       />
-      <figcaption class="font-mono text-xs">{framework?.name} logo</figcaption>
+      <h1 class="mb-4 mx-2 w-fit text-5xl font-bold">{framework?.name}</h1>
+      
+    </header>
+    <div class="flex -space-x-64">
+      {image_array.map((image:string) => (
+        <div onmouseenter=onenter(this) class="image-containter" >
+          <Image class="w-md aspect-video object-cover bg-blue-200 border"
+           src={`/.netlify/images?url=/images/${image}`}
+           alt={framework?.name}
+           />
+        </div>
+      ))}
+    </div>
+    <figure>
+      
     </figure>
 
     <p class="py-6 text-xl">{framework?.description}</p>
-
+  <div class="w-full text-right">
+    <a href={framework.url} class=" px-4 py-2 font-bold text-lg bg-linear-90 from-blue-500 to-gray-800 rounded-2xl border-2 border-blue-500 hover:to-blue-500">
+      		⏵Check it out
+    </a>
+  </div>
   </article>
+
 </Layout>
+
+<script is:inline>
+  let image_containers =[];
+  image_containers = document.querySelectorAll('.image-containter');
+  
+  window.onenter = function(element){
+    image_containers.forEach(container => {
+      container.classList.remove('z-50')
+    });
+    if (element){
+      element.classList.add('z-50')
+    }
+  }
+
+</script>
